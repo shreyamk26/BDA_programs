@@ -1,0 +1,44 @@
+start-all.cmd
+StartNetworkServer -h 0.0.0.0
+cd C:\hive\bin
+hive
+
+CREATE DATABASE IF NOT EXISTS db_002;
+USE db_002;
+show databases;
+CREATE TABLE IF NOT EXISTS student(
+id INT,
+name STRING,
+age INT,
+department STRING)
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE;
+
+DESCRIBE student;
+
+INSERT INTO TABLE student VALUES
+(1,'Jhon doe',20,'Engineering'),
+(2,'Jane smith',22,'Marketing'),
+(3,'Michal Jhonson',23,'Sales'),
+(4,'Emily Davis',23,'HR'),
+(5,'James brown',21,'Finance');
+
+SELECT * FROM student;
+
+INSERT OVERWRITE TABLE student
+SELECT * FROM student WHERE id!=2
+
+SELECT * FROM student;
+
+ALTER TABLE student ADD COLUMNS(semester INT);
+
+INSERT OVERWRITE TABLE student
+SELECT id,name,age,department,'6' AS semester
+FROM student;
+
+SELECT * FROM student;
+
+DROP TABLE student;
+
+DROP DATABASE db_002; 
